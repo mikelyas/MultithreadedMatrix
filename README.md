@@ -1,6 +1,6 @@
 # MultithreadedMatrix
 
-This project implements matrix multiplication using multithreading. Currently, only matrix multiplication is implemented, and it supports matrices with the same number of rows and columns.
+This project implements matrix multiplication using multithreading. Currently, only matrix multiplication is implemented.
 
 ## Matrix Multiplication Implementation
 

@@ -5,7 +5,7 @@
 #include "MultithreadedMatrix.h"
 
 
-TEST_CASE("Multiplication of matrixes", "[multiplication]")
+TEST_CASE("Multiplication of matrices", "[multiplication]")
 {
     MultithreadedMatrix matrixA({{1, 1},
                                  {1, 1}});
@@ -49,6 +49,35 @@ TEST_CASE("Multiplication of matrixes", "[multiplication]")
                     {21, 42, 63, 84, 105, 126},
                     {21, 42, 63, 84, 105, 126},
                     {21, 42, 63, 84, 105, 126}};                         
+
+    REQUIRE(matrixA * matrixB == matrixResult);
+
+    matrixA = {{1, 2, 3, 4},
+               {2, 3, 4, 5}};
+    matrixB = {{1, 2, 3},
+               {2, 3, 4},
+               {3, 4, 5},
+               {6, 7, 8}};
+    matrixResult = {{38, 48, 58},
+                    {50, 64, 78}};
+
+    REQUIRE(matrixA * matrixB == matrixResult);
+
+    matrixA = {{1, 2},
+               {3, 4}};
+    matrixB = {{1, 2, 3, 4},
+               {2, 3, 4, 5}};
+    matrixResult = {{5, 8, 11, 14},
+                    {11, 18, 25, 32}};
+                
+    REQUIRE(matrixA * matrixB == matrixResult);
+
+    matrixA = {{0, 0},
+               {0, 0}};
+    matrixB = {{0, 0, 0},
+               {0, 0, 0}};
+    matrixResult = {{0, 0, 0},
+                    {0, 0, 0}};
 
     REQUIRE(matrixA * matrixB == matrixResult);
 }

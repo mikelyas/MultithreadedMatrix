@@ -1,10 +1,12 @@
 #include <vector>
 #include <cstdint>
+#include <ostream>
 
 
 class MultithreadedMatrix {
 public:
     MultithreadedMatrix(const uint32_t& matrixSize);
+    MultithreadedMatrix(const uint32_t& matrixHeight, const uint32_t matrixWidth);
     MultithreadedMatrix(const std::vector<std::vector<int>> &inputMatrix);
 
     MultithreadedMatrix& operator=(const std::vector<std::vector<int>>& data);
@@ -15,9 +17,10 @@ public:
 
     MultithreadedMatrix operator*(const MultithreadedMatrix& other) const;
 
-    void print() const;
+    friend std::ostream& operator<<(std::ostream& os, const MultithreadedMatrix& matrix);
 
 private:
-    uint32_t m_MatrixSize;
+    uint32_t m_MatrixHeight;
+    uint32_t m_MatrixWidth;
     std::vector<std::vector<int>> m_Matrix;
 };
