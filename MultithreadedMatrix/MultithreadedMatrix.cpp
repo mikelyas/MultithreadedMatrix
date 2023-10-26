@@ -85,6 +85,33 @@ MultithreadedMatrix MultithreadedMatrix::operator*(const MultithreadedMatrix& ot
     return result;
 }
 
+MultithreadedMatrix MultithreadedMatrix::operator+(const MultithreadedMatrix& other) const {
+     MultithreadedMatrix result(m_MatrixHeight, other.m_MatrixWidth);
+
+    // Perform matrix multiplication using threads
+    std::vector<std::thread> multiplicationThreads;
+    const int numOfThreads = m_MatrixHeight >= MAX_NUM_THREADS ? MAX_NUM_THREADS : m_MatrixHeight;
+    const int numRowsPerThread = (m_MatrixHeight + 1) / numOfThreads;
+    for (uint32_t i = 0; i < m_MatrixHeight; i += numRowsPerThread) {
+        uint32_t startRow = i;
+        uint32_t endRow = std::min(i + numRowsPerThread, m_MatrixHeight);
+
+        multiplicationThreads.emplace_back([this, &result, startRow, endRow, &other]() {
+            for (uint32_t i = startRow; i < endRow; i++) {
+                for (uint32_t j = 0; j < m_MatrixWidth; ++j) {
+                    result.m_Matrix[i][j] = m_Matrix[i][j] + other.m_Matrix[i][j];
+                }
+            }
+        });
+    }
+
+    for (std::thread& thread : multiplicationThreads) {
+        thread.join();
+    }
+
+    return result;
+}
+
 std::ostream& operator<<(std::ostream& os, const MultithreadedMatrix& matrix) {
     for (uint32_t i = 0; i < matrix.m_MatrixHeight; ++i) {
         for (uint32_t j = 0; j < matrix.m_MatrixWidth; ++j) {

@@ -17,6 +17,8 @@ public:
 
     MultithreadedMatrix operator*(const MultithreadedMatrix& other) const;
 
+    MultithreadedMatrix operator+(const MultithreadedMatrix& other) const;
+
     friend std::ostream& operator<<(std::ostream& os, const MultithreadedMatrix& matrix);
 
 private:
