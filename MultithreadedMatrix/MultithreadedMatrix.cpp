@@ -85,31 +85,40 @@ MultithreadedMatrix MultithreadedMatrix::operator*(const MultithreadedMatrix& ot
     return result;
 }
 
-MultithreadedMatrix MultithreadedMatrix::operator+(const MultithreadedMatrix& other) const {
-     MultithreadedMatrix result(m_MatrixHeight, other.m_MatrixWidth);
+MultithreadedMatrix MultithreadedMatrix::elementWiseOperation(const MultithreadedMatrix& other
+    , std::function<int(int, int)> op) const {
+    MultithreadedMatrix result(m_MatrixHeight, other.m_MatrixWidth);
 
-    // Perform matrix multiplication using threads
-    std::vector<std::thread> multiplicationThreads;
+    // Perform the operation using threads
+    std::vector<std::thread> operationThreads;
     const int numOfThreads = m_MatrixHeight >= MAX_NUM_THREADS ? MAX_NUM_THREADS : m_MatrixHeight;
     const int numRowsPerThread = (m_MatrixHeight + 1) / numOfThreads;
     for (uint32_t i = 0; i < m_MatrixHeight; i += numRowsPerThread) {
         uint32_t startRow = i;
         uint32_t endRow = std::min(i + numRowsPerThread, m_MatrixHeight);
 
-        multiplicationThreads.emplace_back([this, &result, startRow, endRow, &other]() {
+        operationThreads.emplace_back([this, &result, startRow, endRow, &other, op]() {
             for (uint32_t i = startRow; i < endRow; i++) {
                 for (uint32_t j = 0; j < m_MatrixWidth; ++j) {
-                    result.m_Matrix[i][j] = m_Matrix[i][j] + other.m_Matrix[i][j];
+                    result.m_Matrix[i][j] = op(m_Matrix[i][j], other.m_Matrix[i][j]);
                 }
             }
         });
     }
 
-    for (std::thread& thread : multiplicationThreads) {
+    for (std::thread& thread : operationThreads) {
         thread.join();
     }
 
     return result;
+}
+
+MultithreadedMatrix MultithreadedMatrix::operator+(const MultithreadedMatrix& other) const {
+    return elementWiseOperation(other, [](int a, int b) { return a + b; });
+}
+
+MultithreadedMatrix MultithreadedMatrix::operator-(const MultithreadedMatrix& other) const {
+    return elementWiseOperation(other, [](int a, int b) { return a - b; });
 }
 
 std::ostream& operator<<(std::ostream& os, const MultithreadedMatrix& matrix) {

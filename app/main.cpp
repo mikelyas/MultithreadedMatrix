@@ -4,29 +4,24 @@
 
 
 int main() {
-    MultithreadedMatrix matrixA({{1, 2, 3, 4, 5, 6},
-                                 {1, 2, 3, 4, 5, 6},
-                                 {1, 2, 3, 4, 5, 6},
-                                 {1, 2, 3, 4, 5, 6},
-                                 {1, 2, 3, 4, 5, 6},
-                                 {1, 2, 3, 4, 5, 6}});
-    MultithreadedMatrix matrixB({{1, 2, 3, 4, 5, 6},
-                                 {1, 2, 3, 4, 5, 6},
-                                 {1, 2, 3, 4, 5, 6},
-                                 {1, 2, 3, 4, 5, 6},
-                                 {1, 2, 3, 4, 5, 6},
-                                 {1, 2, 3, 4, 5, 6}});
+    
+    MultithreadedMatrix matrixA = MultithreadedMatrix({{1, 2, 3, 4},
+                                                       {2, 3, 4, 5}});
+    MultithreadedMatrix matrixB = MultithreadedMatrix({{1, 2, 3},
+                                                       {2, 3, 4},
+                                                       {4, 5, 6},
+                                                       {6, 7, 8}});
 
     std::cout << "Matrix A:" << std::endl;
-    matrixA.print();
+    std::cout << matrixA;
 
     std::cout << "Matrix B:" << std::endl;
-    matrixB.print();
+    std::cout << matrixB;
 
     MultithreadedMatrix resultMatrix = matrixA * matrixB;
 
     std::cout << "Matrix Multiplication Result:" << std::endl;
-    resultMatrix.print();
+    std::cout << resultMatrix;
 
     return 0;
 }

@@ -3,6 +3,7 @@
 This project implements matrix operations using multithreading. Currently, these operations are implemented:
 - Multiplication
 - Addition
+- Substruction
 
 ## Matrix Multiplication Implementation
 
@@ -10,6 +11,10 @@ The matrix multiplication is implemented in the following way:
 
 - Each thread takes a specific number of rows from the first matrix.
 - It multiplies these rows with all the columns from the second matrix.
+
+## Matrix Addition and Substraction Implementations
+
+Each thread is responsible for a number of rows to add or substract.
 
 ## Getting Started
 

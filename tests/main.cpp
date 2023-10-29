@@ -117,3 +117,39 @@ TEST_CASE("Addition of matrices", "[addition]")
 
     REQUIRE(matrixA + matrixB == matrixResult);
 }
+
+TEST_CASE("Substraction of matrices", "[substraction]") 
+{
+    MultithreadedMatrix matrixA({{0, 0},
+                                 {0, 0}});
+    MultithreadedMatrix matrixB({{0, 0},
+                                 {0, 0}});
+    MultithreadedMatrix matrixResult({{0, 0},
+                                      {0, 0}});
+    
+    REQUIRE(matrixA - matrixB == matrixResult);
+
+    matrixA = {{1, 2},
+               {4, 3}};
+    matrixB = {{2, 3},
+               {1, 4}};
+    matrixResult = {{-1, -1},
+                    {3, -1}};
+    
+    REQUIRE(matrixA - matrixB == matrixResult);
+
+    matrixA = {{1, 2, 3},
+               {4, 3, 3},
+               {1, 1, 1},
+               {2, 3, 3}};
+    matrixB = {{2, 3, 3},
+               {1, 4, 3},
+               {1, 2, 3},
+               {2, 3, 4}};
+    matrixResult = {{-1, -1, 0},
+                    {3, -1, 0},
+                    {0, -1, -2},
+                    {0, 0, -1}};
+
+    REQUIRE(matrixA - matrixB == matrixResult);
+}
